@@ -1,6 +1,6 @@
 const SERIALPORT_PATH = "COM3";
 const SERVER_PORT = 3000;
-const DELIMITER = '\0';
+const DELIMITER = '\n';
 const MESSAGE_MARK = 'M';
 
 var http = require('http');

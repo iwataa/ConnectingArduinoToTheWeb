@@ -7,10 +7,10 @@
 </head>
 
 <body>
-	<header>
+	<div class="header">
 		<h1>SENDING DATA</h1>
 		<h2>Getting data from the ftont end to an Arduino</h2>
-	</header>
+	</div>
 	<div id="content">
 		<div class="container">
 			<div id="red-block" class="color-block"></div>
@@ -21,6 +21,20 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="header">
+		<h1>SENDING TEXT</h1>
+		<h2>Getting data from the ftont end to an Arduino</h2>
+	</div>
+	<div id="content">
+		<input type="text" id="input-text" placeholder="Add text" maxlength="32">
+		<input type="submit" id="send-text" value="Send text">
+		<div class="text-block">
+			<p>The text sent from this text box will appear on an LCD connected to an Arduino</p>
+			<p>There is a text limit on this box of 32 characters.</p>
+		</div>
+	</div>
+
 	<script src="/socket.io/socket.io.js"></script>
 	<script src="/javascript/main.js"></script>
 </body>

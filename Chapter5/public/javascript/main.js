@@ -13,4 +13,11 @@
 		var greenClick = greenBlock.classList.toggle("green-block-on");
 		socket.emit('green', greenClick + "_green");
 	});
+	
+	var sendTextButton = document.getElementById("send-text");
+	
+	sendTextButton.addEventListener("click", () => {
+		var sendText = document.getElementById("input-text").value;
+		socket.emit('input-text', sendText);
+	});
 })();

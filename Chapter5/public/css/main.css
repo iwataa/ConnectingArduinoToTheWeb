@@ -27,7 +27,7 @@ p {
 	color: black;
 }
 
-header {
+div.header {
 	border-bottom: 2px solid #5a5b5a;
 	background-color: white;
 }
@@ -74,4 +74,30 @@ header {
 	height: 200px;
 	flex-grow: 8;
 	font-size: 18px;
+}
+
+#content {
+	margin: 40px;
+}
+
+input[type=text], select {
+	width: 100%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #e37222;
+	border-radius: 12px;
+	box-sizing: border-box;
+}
+
+input[type=submit] {
+	font-size: 14px;
+	width: 100%;
+	background-color: #07889b;
+	color: white;
+	padding: 14px 20px;
+	margin: 8px 0;
+	border: none;
+	border-radius: 12px;
+	cursor: pointer;
 }

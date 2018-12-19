@@ -1,5 +1,7 @@
 const SERIALPORT_PATH = "COM3";
 const SERVER_PORT = 3000;
+const DELIMITER = '*';
+const MESSAGE_MARK = 'M';
 
 var http = require('http');
 var express = require('express');
@@ -36,12 +38,16 @@ io.on('connection', (socket) => {
 	
 	// Event handler for red button
 	socket.on('red', data => {
-		serialport.write(data + 'T');
+		serialport.write(data + DELIMITER);
 	});
 	
 	// Event handler for green button
 	socket.on('green', data => {
-		serialport.write(data + 'T');
+		serialport.write(data + DELIMITER);
+	});
+	
+	socket.on('input-text', data => {
+		serialport.write(MESSAGE_MARK + data + DELIMITER);
 	});
 	
 	// Message for disconnect event

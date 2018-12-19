@@ -11,7 +11,7 @@ const int lcdD7 = 5;
 
 LiquidCrystal lcd(lcdRs, lcdEna, lcdD4, lcdD5, lcdD6, lcdD7);
 
-const char DELIMITER = '*';
+const char DELIMITER = '\0';
 const char MESSAGE_MARK = 'M';
 char charRead;
 String inputString = "";

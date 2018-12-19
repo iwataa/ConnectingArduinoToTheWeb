@@ -18,6 +18,8 @@ String inputString = "";
 String outputString = "";
 String currentString = "";
 
+bool needScroll = false;
+
 void setup() {
   Serial.begin(9600);
   pinMode(ledRed, OUTPUT);
@@ -55,8 +57,9 @@ void loop() {
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print(outputString);
+    needScroll = outputString.length() > 16;
     currentString = outputString;
   }
 
-  //if ((millis() % 500) == 0) lcd.scrollDisplayLeft();
+  if (needScroll && ((millis() % 500) == 0)) lcd.scrollDisplayLeft();
 }

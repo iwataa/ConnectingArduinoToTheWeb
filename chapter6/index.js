@@ -65,3 +65,9 @@ io.on('connection', (socket) => {
 server.listen(SERVER_PORT, () => {
 	console.log('listening on port ' + SERVER_PORT);
 });
+
+
+// Workaround for a bug that parser event is not fired
+// https://github.com/node-serialport/node-serialport/issues/1751
+setInterval(() => {}, 0)
+

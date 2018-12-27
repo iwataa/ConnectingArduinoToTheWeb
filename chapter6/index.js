@@ -54,6 +54,11 @@ io.on('connection', (socket) => {
             socket.emit("bar-data", dataObject);
         }
     });
+
+    socket.on('percentData', data => {
+        console.log('percentData: ' + data);
+        serialport.write(data + 'T');
+    });
     
     // Message for disconnect event
     socket.on('disconnect', () => {

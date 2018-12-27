@@ -97,3 +97,23 @@ header h1, header h2, header h3, header p {
     visibility: hidden;
 }
 
+#responses {
+    color: black;
+    font-weight: normal;
+    margin: 12px;
+}
+
+#responses .text-block {
+    background-color: white;
+    border: #6BCAE2 solid 2px;
+    color: black;
+    width: 260px;
+    height: 48px;
+    margin-top: 22px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: normal;
+}
+

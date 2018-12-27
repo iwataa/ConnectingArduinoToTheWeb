@@ -17,25 +17,25 @@ app.set('view engine','ejs');
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
-	res.render('index');
+    res.render('index');
 });
 
 serialport.on('open', () => {
-	console.log('serial port opened');
+    console.log('serial port opened');
 });
 
 serialport.on('error', error => {
-	console.log('serial port error');
-	console.log(error);
-	process.exit(1);
+    console.log('serial port error');
+    console.log(error);
+    process.exit(1);
 });
 
 //serialport.on('data', data => console.log(data));
 
 io.on('connection', (socket) => {
-	// Show messaage on console
-	console.log('socket.io connected');
-	
+    // Show messaage on console
+    console.log('socket.io connected');
+    
     parser.on("data", (data) => {
         console.log(data);
         var dataKey = data.slice(0, 2);
@@ -54,16 +54,16 @@ io.on('connection', (socket) => {
             socket.emit("bar-data", dataObject);
         }
     });
-	
-	// Message for disconnect event
-	socket.on('disconnect', () => {
-		console.log('disconnected');
-	});
+    
+    // Message for disconnect event
+    socket.on('disconnect', () => {
+        console.log('disconnected');
+    });
 });
 
 
 server.listen(SERVER_PORT, () => {
-	console.log('listening on port ' + SERVER_PORT);
+    console.log('listening on port ' + SERVER_PORT);
 });
 
 

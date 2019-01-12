@@ -11,7 +11,7 @@ var io = require('socket.io')(server);
 var SerialPort = require('serialport');
 var parser = new SerialPort.parsers.Readline();
 var serialport = new SerialPort(SERIALPORT_PATH);
-var schedule = require('node-schedule")
+var schedule = require("node-schedule");
 
 // Configuration
 serialport.pipe(parser);
@@ -23,14 +23,15 @@ app.use(express.static(__dirname + '/public'));
 // Application data
 
 var sensors = {
-    temp: { current: 0, high: 100, low: 0, dataIndex:0 },
-    humidity: { current: 0, high: 100, low: 0, dataIndex:1 },
-    light: { current: 0, high: 10, low: 0, dataIndex:2 }
+    temp: { current: 0, high: 0, low: 100, dataIndex:0 },
+    humidity: { current: 0, high: 0, low: 100, dataIndex:1 },
+    light: { current: 0, high: 0, low: 10, dataIndex:2 }
 };
 
 var changeDay = 0;
 
-var j = schedule.scheduleJob("*/40 * * * * *", function() {
+var j = schedule.scheduleJob("0 0 0 * * *", function() {
+    console.log("reset");
     for (key in sensors) {
 	if (sensors.hasOwnProperty(key)) {
 	    sensors[key].current = 0;
@@ -39,7 +40,7 @@ var j = schedule.scheduleJob("*/40 * * * * *", function() {
 	}
     }
     changeDay = 1;
-}
+});
 
 // Routing
 
@@ -64,11 +65,11 @@ parser.on("data", (data) => {
     var dataArray = data.split(",");
     var hasChanged = updateValues(dataArray);
 
-    if (hasChanged > 0) {
+    if (hasChanged != 0) {
 	io.emit("data", sensors);
     }
 
-    if (changeDay === 1) {
+    if (changeDay == 1) {
 	changeDay = 0;
 	io.emit("change-day", "true");
     }
@@ -98,15 +99,23 @@ function updateValues(data) {
 
     keyArray.forEach(function(key, index) {
 	var tempSensor = sensors[key];
-	var newData = data[tempSensor.dataIndex];
+	var newData = parseInt(data[tempSensor.dataIndex]);
 
-	if (tempSensor.current !== newData) {
+	if (newData === NaN) continue;
+
+	if (tempSensor.current != newData) {
 	    tempSensor.current = newData;
 	    changed = 1;
 	}
 
-	if (tempSensor.current > tempSensor.high) tempSensor.current = tempSensor.high
-	if (tempSensor.current < tempSensor.low) tempSensor.current = tempSensor.low
+	if (tempSensor.high < newData) {
+	    tempSensor.high = newData;
+	}
+
+	if (tempSensor.low > newData) {
+	    tempSensor.low = newData;
+	}
+
     });
 
     return changed;

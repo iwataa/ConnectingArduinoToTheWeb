@@ -39,13 +39,13 @@ var DonutChart = function() {
 	g = svg.append("g")
 		.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 	g.append("text")
-	    .attr("text-anchor", "middle")
-	    .attr("font-sizs", "1.3em")
+	    .style("text-anchor", "middle")
+	    .style("font-size", "1.3em")
 	    .attr("y", -20)
 	    .text(sensorType);
 	textValue = g.append("text")
-		    .attr("text-anchor", "middle")
-		    .attr("font-size", "1em")
+		    .style("text-anchor", "middle")
+		    .style("font-size", "1em")
 		    .attr("y", 0)
 		    .text(sensorAmount + "" + sensorText);
 	var background = g.append("path")

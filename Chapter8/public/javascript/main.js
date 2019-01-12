@@ -41,6 +41,7 @@
 
     function changeHighLow(data) {
 	for (key in data) {
+	    console.log(data);
 	    if (data.hasOwnProperty(key)) {
 		var className = key + "-high";
 		document.getElementById(className).innerHTML = data[key].high;

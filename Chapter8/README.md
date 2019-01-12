@@ -45,4 +45,11 @@ For instalation the library, following step is required before build.
 	$ platformio serialports monitor
 
 
+## Circuit
+
+![circuit-for-env-sensors](circuit.png)
+
+### Implementation on breadboard
+
+![breadboard](breadboard.jpg)
 

@@ -1,4 +1,4 @@
-// vim: sts=4 sw=4 sm ai
+// vim: sts=4 sw=4 si
 const SERIALPORT_PATH = "/dev/ttyACM0";
 const SERVER_PORT = 3000;
 
@@ -37,29 +37,25 @@ serialport.on('error', error => {
     process.exit(1);
 });
 
+// Broadcasting sensor data when refresh is needed
+
+parser.on("data", (data) => {
+    data = data.replace(/(\r\n|\r|\n)/gm, "");
+    var dataArray = data.split(",");
+    var hasChanged = updateValues(dataArray);
+
+    if (hasChanged > 0) {
+	io.emit("data", sensors);
+    }
+});
+
+
 io.on('connection', (socket) => {
-    // Show messaage on console
+
+    // Show messaage when connection established
     console.log('socket.io connected');
     socket.emit("initial-data", sensors);
 
-    //var cnt = 0;
-    
-    parser.on("data", (data) => {
-	data = data.replace(/(\r\n|\r|\n)/gm, "");
-	var dataArray = data.split(",");
-	var hasChanged = updateValues(dataArray);
-
-	if (hasChanged > 0) {
-	    socket.emit("data", sensors);
-	    console.log(hasChanged)
-	    console.log(sensors);
-	}
-
-	//console.log(cnt + ":" + dataArray);
-	//socket.emit("data", dataArray);
-	//cnt++;
-    });
-    
     // Message for disconnect event
     socket.on('disconnect', () => {
         console.log('disconnected');

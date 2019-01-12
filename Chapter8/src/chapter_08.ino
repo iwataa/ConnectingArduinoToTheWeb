@@ -14,13 +14,10 @@ void setup() {
 }
 
 void loop() {
-  Serial.println("Current Readeing");
 
   dht11.read(pinTempHumidity, &temperature, &humidity, data);
-  valueLight = analogRead(pinLight);
+  valueLight = map(analogRead(pinLight), 0, 1023, 10, 0);
 
-  Serial.print((int)temperature); Serial.print(" *C, ");
-  Serial.print((int)humidity); Serial.println(" %");
-  Serial.print(valueLight, DEC);
-  delay(1000);
+  Serial.println((String)temperature + "," + (String)humidity + "," + (String)valueLight);
+  delay(500);
 }  

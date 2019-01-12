@@ -6,6 +6,7 @@
 I begin to utilize platformio because I switched bench from Windows to Raspberry pi.
 
 To install platformio
+
 	$ pip install platformio
 
 First, need to create standard folder structure that platformio command recognizes. The command is like "NPM".
@@ -22,6 +23,14 @@ I have Arduino UNO compatible board. So, platformio.ini will be written like bel
 	framework = arduino
 	board = uno
 	monitor_speed = 9600
+
+### Add SimpleDHT library
+
+To build chapter 8 arduino program, it needs "SimpleDHT" library which provides a class to handle Temp/Humidity sensor from Arduino.
+
+For instalation the library, following step is required before build.
+
+	$ platform lib install SimpleDHT
 
 ### Build
 

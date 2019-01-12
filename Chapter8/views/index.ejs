@@ -1,21 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Dashboard</title>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/css/main.css" type="text/css">
 </head>
 <body>
-<div class="wrapper">
-<h1>Dashboard</h1>
-<p>This page will contain a dashboard of data</p>
-</div>
-<script src="/socket.io/socket.io.js"></script>
-<script>
-    var socket = io();
-    socket.on("data", function(data) {
-	console.log(data);
-    });
-</script>
-<div></div>
+    <header>
+	<h1>SENSOR DASHBOARD</h1>
+	<h2>temperature humidity light</h2>
+    </header>
+    <main>
+	<h3>current values</h3>
+	<div class="container">
+	    <div id="donut1" class="donut flex-child"></div>
+	    <div id="donut2" class="donut flex-child"></div>
+	    <div id="donut3" class="donut flex-child"></div>
+	</div>
+    </main>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="/javascript/donut.js"></script>
+    <script src="/javascript/main.js"></script>
+    <div></div>
 </body>
 </html>
 

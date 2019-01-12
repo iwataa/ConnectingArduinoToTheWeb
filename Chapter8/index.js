@@ -17,6 +17,12 @@ app.engine('ejs', require('ejs').__express);
 app.set('view engine','ejs');
 app.use(express.static(__dirname + '/public'));
 
+var sensors = {
+    temp: { current: 0, high: 100, low: 0, dataIndex:0 },
+    humidity: { current: 0, high: 100, low: 0, dataIndex:1 },
+    light: { current: 0, high: 10, low: 0, dataIndex:2 }
+};
+
 app.get('/', (req, res) => {
     res.render('index');
 });
@@ -34,15 +40,24 @@ serialport.on('error', error => {
 io.on('connection', (socket) => {
     // Show messaage on console
     console.log('socket.io connected');
+    socket.emit("initial-data", sensors);
 
-    var cnt = 0;
+    //var cnt = 0;
     
     parser.on("data", (data) => {
 	data = data.replace(/(\r\n|\r|\n)/gm, "");
 	var dataArray = data.split(",");
-	console.log(cnt + ":" + dataArray);
-	socket.emit("data", dataArray);
-	cnt++;
+	var hasChanged = updateValues(dataArray);
+
+	if (hasChanged > 0) {
+	    socket.emit("data", sensors);
+	    console.log(hasChanged)
+	    console.log(sensors);
+	}
+
+	//console.log(cnt + ":" + dataArray);
+	//socket.emit("data", dataArray);
+	//cnt++;
     });
     
     // Message for disconnect event
@@ -56,8 +71,23 @@ server.listen(SERVER_PORT, () => {
     console.log('listening on port ' + SERVER_PORT);
 });
 
+function updateValues(data) {
+    var changed = 0;
+    var keyArray = ["temp", "humidity", "light"];
 
-// Workaround for a bug that parser event is not fired
-// https://github.com/node-serialport/node-serialport/issues/1751
-//setInterval(() => {}, 0)
+    keyArray.forEach(function(key, index) {
+	var tempSensor = sensors[key];
+	var newData = data[tempSensor.dataIndex];
+
+	if (tempSensor.current !== newData) {
+	    tempSensor.current = newData;
+	    changed = 1;
+	}
+
+	if (tempSensor.current > tempSensor.high) tempSensor.current = tempSensor.high
+	if (tempSensor.current < tempSensor.low) tempSensor.current = tempSensor.low
+    });
+
+    return changed;
+}
 

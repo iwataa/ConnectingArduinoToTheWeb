@@ -38,6 +38,11 @@ var DonutChart = function() {
 		.attr("height", HEIGHT + margin.top + margin.bottom);
 	g = svg.append("g")
 		.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+	g.append("text")
+	    .attr("text-anchor", "middle")
+	    .attr("font-sizs", "1.3em")
+	    .attr("y", -20)
+	    .text(sensorType);
 	textValue = g.append("text")
 		    .attr("text-anchor", "middle")
 		    .attr("font-size", "1em")
@@ -56,6 +61,7 @@ var DonutChart = function() {
     }
 
     function updateChart(newSensorValue){
+	foreground.transition();
 	sensorScale.domain(sensorDomainArray);
 	var sensorValue = sensorScale(newSensorValue);
 	sensorValue = sensorValue / 180;

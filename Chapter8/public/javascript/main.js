@@ -16,16 +16,39 @@
     light.createChart('', "light");
 
     socket.on("initial-data", function(data) {
-	console.log(data);
 	temperature.updateChart(data.temp.current);
 	humidity.updateChart(data.humidity.current);
 	light.updateChart(data.light.current);
+	changeHighLow(data);
     });
 
     socket.on("data", function(data) {
-	console.log(data);
 	temperature.updateChart(data.temp.current);
 	humidity.updateChart(data.humidity.current);
 	light.updateChart(data.light.current);
+	changeHighLow(data);
     });
+
+    socket.on("change-day", function(data) {
+	changeDate();
+    });
+
+    function changeDate() {
+	var date = new Date();
+	var displayDate = document.getElementById("date");
+	displayDate.innerHTML = date.toDateString();
+    }
+
+    function changeHighLow(data) {
+	for (key in data) {
+	    if (data.hasOwnProperty(key)) {
+		var className = key + "-high";
+		document.getElementById(className).innerHTML = data[key].high;
+		className = key + "-low";
+		document.getElementById(className).innerHTML = data[key].low;
+	    }
+	}
+    }
+
+    changeDate();
 })();

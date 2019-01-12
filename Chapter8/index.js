@@ -2,6 +2,7 @@
 const SERIALPORT_PATH = "/dev/ttyACM0";
 const SERVER_PORT = 3000;
 
+// Library
 var http = require('http');
 var express = require('express');
 var app = express();
@@ -10,18 +11,37 @@ var io = require('socket.io')(server);
 var SerialPort = require('serialport');
 var parser = new SerialPort.parsers.Readline();
 var serialport = new SerialPort(SERIALPORT_PATH);
+var schedule = require('node-schedule")
 
+// Configuration
 serialport.pipe(parser);
 
 app.engine('ejs', require('ejs').__express);
 app.set('view engine','ejs');
 app.use(express.static(__dirname + '/public'));
 
+// Application data
+
 var sensors = {
     temp: { current: 0, high: 100, low: 0, dataIndex:0 },
     humidity: { current: 0, high: 100, low: 0, dataIndex:1 },
     light: { current: 0, high: 10, low: 0, dataIndex:2 }
 };
+
+var changeDay = 0;
+
+var j = schedule.scheduleJob("*/40 * * * * *", function() {
+    for (key in sensors) {
+	if (sensors.hasOwnProperty(key)) {
+	    sensors[key].current = 0;
+	    sensors[key].high = 0;
+	    sensors[key].low = 100;
+	}
+    }
+    changeDay = 1;
+}
+
+// Routing
 
 app.get('/', (req, res) => {
     res.render('index');
@@ -46,6 +66,11 @@ parser.on("data", (data) => {
 
     if (hasChanged > 0) {
 	io.emit("data", sensors);
+    }
+
+    if (changeDay === 1) {
+	changeDay = 0;
+	io.emit("change-day", "true");
     }
 });
 

@@ -97,25 +97,25 @@ function updateValues(data) {
     var changed = 0;
     var keyArray = ["temp", "humidity", "light"];
 
-    keyArray.forEach(function(key, index) {
+    keyArray.forEach(function(key) {
 	var tempSensor = sensors[key];
 	var newData = parseInt(data[tempSensor.dataIndex]);
 
-	if (newData === NaN) continue;
+	if (newData !== NaN)  {
 
-	if (tempSensor.current != newData) {
-	    tempSensor.current = newData;
-	    changed = 1;
+	    if (tempSensor.current != newData) {
+		tempSensor.current = newData;
+		changed = 1;
+	    }
+
+	    if (tempSensor.high < newData) {
+		tempSensor.high = newData;
+	    }
+
+	    if (tempSensor.low > newData) {
+		tempSensor.low = newData;
+	    }
 	}
-
-	if (tempSensor.high < newData) {
-	    tempSensor.high = newData;
-	}
-
-	if (tempSensor.low > newData) {
-	    tempSensor.low = newData;
-	}
-
     });
 
     return changed;
